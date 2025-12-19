@@ -1,0 +1,76 @@
+# AITuber Starter Kit - Main Configuration
+
+# Streaming platform settings
+platform:
+  name: youtube  # youtube | twitch | niconico
+  video_id: "YOUR_VIDEO_ID_HERE"  # YouTube Live video ID (required for YouTube)
+  # channel_id: ""  # Optional channel ID
+  # twitch_channel: ""  # Twitch channel name (required for Twitch)
+
+# LLM (Large Language Model) settings
+llm:
+  provider: openai  # openai | anthropic | google | ollama
+  model: gpt-4o-mini  # Model name
+  temperature: 0.7  # Creativity (0.0 - 2.0)
+  max_tokens: 150  # Maximum response length
+  # Ollama settings (if using ollama provider)
+  # ollama_host: localhost
+  # ollama_port: 11434
+
+# TTS (Text-to-Speech) settings
+tts:
+  engine: voicevox  # voicevox | coeiroink | style_bert_vits | nijivoice
+  host: localhost  # TTS server host
+  port: 50021  # TTS server port (VOICEVOX: 50021, COEIROINK: 50032, Style-Bert-VITS2: 5000)
+  speaker_id: 1  # Voice/speaker ID
+  speed: 1.0  # Speaking speed (0.5 - 2.0)
+  pitch: 0.0  # Voice pitch (-0.15 - 0.15)
+  intonation: 1.0  # Intonation (0.0 - 2.0)
+  volume: 1.0  # Volume (0.0 - 2.0)
+  # Style-Bert-VITS2 settings
+  # style_bert_model: "default"
+  # style_bert_style: "Neutral"
+  # style_bert_style_weight: 1.0
+  # Nijivoice settings
+  # nijivoice_actor_id: ""  # Required for nijivoice
+
+# Avatar control settings
+avatar:
+  enabled: true  # Enable/disable avatar control
+  host: localhost  # VTube Studio host
+  port: 8001  # VTube Studio API port
+  plugin_name: "AITuber Starter Kit"
+  plugin_developer: "AITuber Community"
+
+# Expression and emotion settings
+expression:
+  enabled: true  # Enable/disable expression control
+  analyze_emotion: true  # Analyze text emotion for expression changes
+
+# Comment processing settings
+comment:
+  response_interval: 5.0  # Seconds between responses
+  priority_donation: true  # Prioritize super chats/donations
+  max_queue_size: 100  # Maximum comments in queue
+  # ng_words_file: config/ng_words.txt  # Optional NG words file
+
+# Character configuration file
+character_file: config/characters/default.yaml
+
+# Logging settings
+logging:
+  level: INFO  # DEBUG | INFO | WARNING | ERROR
+  # file: logs/aituber.log  # Optional log file
+
+# Web Dashboard settings (Phase 4)
+dashboard:
+  enabled: false  # Enable/disable web dashboard
+  host: localhost  # Dashboard server host
+  port: 8080  # Dashboard server port
+
+# Long-term Memory settings (Phase 4)
+memory:
+  enabled: false  # Enable/disable long-term memory
+  db_path: data/memory.db  # SQLite database path
+  max_results: 5  # Maximum memory results to retrieve
+  relevance_threshold: 0.3  # Minimum relevance score (0.0 - 1.0)

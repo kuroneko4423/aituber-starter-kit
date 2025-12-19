@@ -1,0 +1,31 @@
+# AITuber Starter Kit - Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core async libraries
+aiohttp>=3.9.0
+websockets>=12.0
+httpx>=0.27.0
+
+# YouTube Live chat
+pytchat>=0.5.5
+
+# Twitch chat (optional)
+twitchio>=2.9.0
+
+# LLM APIs
+openai>=1.50.0
+anthropic>=0.39.0
+google-generativeai>=0.8.0
+
+# VTube Studio integration
+pyvts>=0.3.3
+
+# Audio processing and playback
+sounddevice>=0.4.7
+numpy>=1.26.0
+
+# Configuration management
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0

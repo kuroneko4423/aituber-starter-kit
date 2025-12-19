@@ -1,0 +1,45 @@
+# AITuber Starter Kit - Docker Compose
+# Usage: docker-compose up -d
+
+version: "3.8"
+
+services:
+  aituber:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aituber-starter-kit
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      # Configuration files
+      - ./config:/app/config:ro
+      # Logs
+      - ./logs:/app/logs
+      # VTube Studio token (if using host VTS)
+      - ./vts_token.txt:/app/vts_token.txt:rw
+    # Network mode host for connecting to local services
+    # (VOICEVOX, VTube Studio on host machine)
+    network_mode: host
+    # Alternative: Use bridge network with port mapping
+    # ports:
+    #   - "8080:8080"  # Web dashboard (future)
+
+  # Optional: VOICEVOX engine
+  # Uncomment to run VOICEVOX in Docker
+  # voicevox:
+  #   image: voicevox/voicevox_engine:cpu-ubuntu20.04-latest
+  #   container_name: voicevox-engine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "50021:50021"
+  #   # For GPU support, use nvidia-docker
+  #   # runtime: nvidia
+  #   # image: voicevox/voicevox_engine:nvidia-ubuntu20.04-latest
+
+# Volumes for persistent data
+volumes:
+  logs:

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AITuber Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="logo">AITuber Dashboard</h1>
+                <span class="version">v0.1.0</span>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Disconnected</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Left Panel - Stats & Controls -->
+            <aside class="sidebar">
+                <!-- System Stats -->
+                <section class="card stats-card">
+                    <h2 class="card-title">System Status</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value" id="pipelineStatus">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Uptime</span>
+                            <span class="stat-value" id="uptime">00:00:00</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Comments</span>
+                            <span class="stat-value" id="commentsCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Responses</span>
+                            <span class="stat-value" id="responsesCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Queue</span>
+                            <span class="stat-value" id="queueSize">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Memory</span>
+                            <span class="stat-value" id="memoryUsage">0 MB</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pipeline Controls -->
+                <section class="card controls-card">
+                    <h2 class="card-title">Pipeline Control</h2>
+                    <div class="controls">
+                        <button class="btn btn-primary" id="startBtn" onclick="startPipeline()">
+                            <span class="btn-icon">▶</span> Start
+                        </button>
+                        <button class="btn btn-danger" id="stopBtn" onclick="stopPipeline()" disabled>
+                            <span class="btn-icon">■</span> Stop
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Character Info -->
+                <section class="card character-card">
+                    <h2 class="card-title">Character</h2>
+                    <div class="character-info">
+                        <div class="character-name" id="characterName">Loading...</div>
+                        <div class="character-detail" id="characterPersonality"></div>
+                    </div>
+                </section>
+
+                <!-- Quick Settings -->
+                <section class="card settings-card">
+                    <h2 class="card-title">Quick Settings</h2>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="responseInterval">Response Interval (s)</label>
+                            <input type="number" id="responseInterval" min="1" max="60" value="5" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="ttsSpeed">TTS Speed</label>
+                            <input type="range" id="ttsSpeed" min="0.5" max="2" value="1" step="0.1">
+                            <span id="ttsSpeedValue">1.0x</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="temperature">AI Temperature</label>
+                            <input type="range" id="temperature" min="0" max="2" value="0.7" step="0.1">
+                            <span id="temperatureValue">0.7</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="applySettings()">Apply Changes</button>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- Center Panel - Conversations -->
+            <section class="content">
+                <div class="card conversation-card">
+                    <h2 class="card-title">
+                        Conversation Log
+                        <button class="btn-icon-only" onclick="clearConversations()" title="Clear">🗑</button>
+                    </h2>
+                    <div class="conversation-list" id="conversationList">
+                        <div class="empty-state">
+                            <p>No conversations yet.</p>
+                            <p class="hint">Start the pipeline or send a manual message.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Input -->
+                <div class="card input-card">
+                    <h2 class="card-title">Send Manual Message</h2>
+                    <div class="input-form">
+                        <input type="text" id="manualMessage" placeholder="Type a message..." maxlength="500">
+                        <button class="btn btn-primary" onclick="sendMessage()" id="sendBtn">Send</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Panel - Comments Queue -->
+            <aside class="sidebar sidebar-right">
+                <section class="card comments-card">
+                    <h2 class="card-title">
+                        Comment Queue
+                        <span class="badge" id="queueBadge">0</span>
+                    </h2>
+                    <div class="comment-list" id="commentList">
+                        <div class="empty-state">
+                            <p>No comments in queue.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Memory Stats -->
+                <section class="card memory-card">
+                    <h2 class="card-title">Long-term Memory</h2>
+                    <div class="memory-stats" id="memoryStats">
+                        <div class="stat-item">
+                            <span class="stat-label">Status</span>
+                            <span class="stat-value" id="memoryEnabled">--</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Entries</span>
+                            <span class="stat-value" id="memoryEntries">0</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </main>
+
+        <!-- Toast Container -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
